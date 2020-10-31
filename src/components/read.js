@@ -1,34 +1,36 @@
 import React from 'react';
 //imports movie.js
 import { Movies } from './movies';
+//Importing axios to allow async opperations
+import axios from 'axios';
 //class for read
 export class Read extends React.Component{
     //Adding the data to components state, data format in JSON
         state = {
             movies: [
-                {
-                "Title": "Avengers: Infinity War",
-                "Year": "2018",
-                "imdbID": "tt4154756",
-                "Type": "movie",
-                "Poster": "https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg"
-                },
-                {
-                "Title": "Captain America: Civil War",
-                "Year": "2016",
-                "imdbID": "tt3498820",
-                "Type": "movie",
-                "Poster": "https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_SX300.jpg"
-                },
-                {
-                "Title": "Charlie Wilson's War",
-                "Year": "2007",
-                "imdbID": "tt0472062",
-                "Type": "movie",
-                "Poster": "https://m.media-amazon.com/images/M/MV5BMTgwMDgwMDc4MF5BMl5BanBnXkFtZTYwOTU3MDM4._V1_SX300.jpg"
-                }
+            
                 ]
         };
+        //Lifestyle hook, gets called everytime our component is active.
+        componentDidMount(){
+            //using axios to fetch the url api
+            axios.get('https://jsonblob.com/api/jsonblob/520c3b5e-0312-11eb-a6af-cbf00d776032')
+            .then(
+                (response)=>{
+                    //Updates state with response from search url
+                    this.setState({ movies: response.data.Search})
+                }
+
+
+            )
+            .catch(
+                //If theres a problem this will log to the console to let you know 
+                (error)=>{
+                    console.log(error)
+                }
+            );
+        }
+
         render(){
             return(
                 <div>
