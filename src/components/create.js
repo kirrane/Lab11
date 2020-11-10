@@ -1,8 +1,9 @@
 import React from 'react';
+import axios from 'axios';
 //class for create
-export class Create extends React.Component{
+export class Create extends React.Component {
     //  
-    constructor(){
+    constructor() {
         //To use forms 
         super();
         //bindings so the copy can run when the button is clicked
@@ -18,67 +19,81 @@ export class Create extends React.Component{
         }
     }
     //Method for the value when its changed 
-    onChangeTitle(e){
+    onChangeTitle(e) {
         this.setState({
             Title: e.target.value
         });
     }
     //Method for value of year to update state
-    onChangeYear(e){
+    onChangeYear(e) {
         this.setState({
             Year: e.target.value
         });
-        }
+    }
     //Method for value of poster to update state
-    onChangePoster(e){
+    onChangePoster(e) {
         this.setState({
             Poster: e.target.value
         });
     }
 
     //On Submit method
-    onSubmit(e){
+    onSubmit(e) {
         e.preventDefault();
-        alert("Movie: "+ this.state.Title + " " + this.state.Year + " " + this.state.Poster);
+        alert("Movie: " + this.state.Title + " " + this.state.Year + " " + this.state.Poster);
+
+        const newMovie = {
+            title: this.state.Title,
+            year: this.state.Year,
+            poster: this.state.Poster
+        }
+        //Data from server passing new movie object 
+        axios.post('http://localhost:4000/api/movies', newMovie)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
-        render(){
-            return(
-                <div className='App'>
-                   <form onSubmit={this.onSubmit}> 
-                   <div className="form-group">
+    render() {
+        return (
+            <div className='App'>
+                <form onSubmit={this.onSubmit}>
+                    <div className="form-group">
                         <label>Add Movie Title: </label>
-                        <input type='text' 
-                        className='form-control' 
-                        value={this.state.Title}
-                        onChange={this.onChangeTitle}></input>
-                   </div>
-                   <div className="form-group">
+                        <input type='text'
+                            className='form-control'
+                            value={this.state.Title}
+                            onChange={this.onChangeTitle}></input>
+                    </div>
+                    <div className="form-group">
                         <label>Add Movie Year: </label>
                         <input type='text'
-                        className='form-control'
-                        value={this.state.Year}
-                        onChange={this.onChangeYear}></input>
+                            className='form-control'
+                            value={this.state.Year}
+                            onChange={this.onChangeYear}></input>
                     </div>
 
                     <div className='form-group'>
                         <label>Movie Poster: </label>
-                        <textarea type='text' 
-                        className='form-control'
-                        value={this.state.Poster}
-                        onChange={this.onChangePoster}>
+                        <textarea type='text'
+                            className='form-control'
+                            value={this.state.Poster}
+                            onChange={this.onChangePoster}>
 
                         </textarea>
                     </div>
 
-                   <div className="form-group">
-                    <input type='submit' 
-                    value='Add Movie'
-                    className='btn btn-primary'></input>
-                   </div>
+                    <div className="form-group">
+                        <input type='submit'
+                            value='Add Movie'
+                            className='btn btn-primary'></input>
+                    </div>
 
-                   </form>
-                </div>
+                </form>
+            </div>
 
-            );
-        }
+        );
+    }
 }
