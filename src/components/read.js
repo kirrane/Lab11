@@ -18,7 +18,7 @@ export class Read extends React.Component {
             .then(
                 (response) => {
                     //Updates state with response from search url, changed search to movies for new api
-                    this.setState({ movies: response.data.movies })
+                    this.setState({ movies: response.data })
                 }
 
 
