@@ -89,6 +89,15 @@ app.get('/api/movies/:id', (req, res) => {
 })
 
 
+// Request to delete the record and send back data
+app.delete('/api/movies/:id', (req, res) => {
+    console.log("Delete Movie: " + req.params.id);
+
+    MovieModel.findByIdAndDelete(req.params.id, (err, data) => {
+        res.send(data);
+    })
+})
+
 //Post
 //Request to pull title,year and poster out from the body
 app.post('/api/movies', (req, res) => {

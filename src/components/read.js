@@ -5,11 +5,16 @@ import { Movies } from './movies';
 import axios from 'axios';
 //class for read
 export class Read extends React.Component {
+
+    constructor() {
+        super();
+
+        this.ReloadData = this.ReloadData.bind(this);
+    }
+
     //Adding the data to components state, data format in JSON
     state = {
-        movies: [
-
-        ]
+        movies: []
     };
     //Lifestyle hook, gets called everytime our component is active.
     componentDidMount() {
@@ -19,10 +24,7 @@ export class Read extends React.Component {
                 (response) => {
                     //Updates state with response from search url, changed search to movies for new api
                     this.setState({ movies: response.data })
-                }
-
-
-            )
+                })
             .catch(
                 //If theres a problem this will log to the console to let you know 
                 (error) => {
@@ -31,13 +33,28 @@ export class Read extends React.Component {
             );
     }
 
+    ReloadData() {
+        axios.get('http://localhost:4000/api/movies')
+            .then(
+                (response) => {
+                    //Updates state with response from search url, changed search to movies for new api
+                    this.setState({ movies: response.data })
+                })
+            .catch(
+                //If theres a problem this will log to the console to let you know 
+                (error) => {
+                    console.log(error)
+                });
+    }
+
     render() {
         return (
             <div>
                 <h1>This is the Read Component</h1>
-                <Movies movies={this.state.movies}></Movies>
+
+                <Movies movies={this.state.movies} ReloadData={this.ReloadData}></Movies>
             </div>
 
-        );
+        )
     }
 }

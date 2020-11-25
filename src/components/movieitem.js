@@ -1,8 +1,29 @@
 import React from 'react';
 //Import card from bootstrap
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 //class for movie item
 export class Movieitem extends React.Component {
+
+    //Constructor
+    constructor() {
+        super();
+        this.DeleteMovie = this.DeleteMovie.bind(this);
+    }
+
+    //Delete Method
+    DeleteMovie(e) {
+        e.preventDefault();
+        console.log("Delete: " + this.props.movie._id);
+
+        axios.delete("http://localhost:4000/api/movies/" + this.props.movie._id)
+            .then(() => {
+                this.props.ReloadData();
+
+            })
+            .catch();
+    }
 
     render() {
         return (
@@ -22,6 +43,7 @@ export class Movieitem extends React.Component {
                         </blockquote>
 
                     </Card.Body>
+                    <Button variant="danger" onClick={this.DeleteMovie}>Delete</Button>
                 </Card>
 
             </div>
